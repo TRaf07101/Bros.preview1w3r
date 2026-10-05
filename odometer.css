@@ -1,0 +1,153 @@
+.topbar-mileage {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 35px;
+  padding: 7px 10px;
+  border: 1px solid #dfe5d7;
+  border-radius: 5px;
+  background: #fbfcf8;
+  color: #65765a;
+  white-space: nowrap;
+  transition: border-color .18s, background .18s;
+}
+.topbar-mileage:hover { background: #f2f6ea; border-color: #b4c5a4; }
+.topbar-mileage > span { font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.topbar-mileage > span > small { font-family: 'DM Sans', sans-serif; font-size: 9px; color: #91a080; font-weight: 450; }
+.topbar-mileage > svg:first-child { color: #90a279; }
+.topbar-mileage > svg:last-child { color: #ae9674; }
+.topbar .breadcrumb { min-width: 0; }
+.topbar .breadcrumb > strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.topbar .topbar-actions { flex-shrink: 0; }
+.next-review-copy > .review-distance { color: #779263; }
+.next-review-copy > .review-distance.warning { color: #b57c52; }
+.odometer-copy > strong { font-variant-numeric: tabular-nums; }
+
+.mileage-access-row { display: flex; align-items: center; width: 100%; gap: 13px; padding: 16px 0 20px; border-bottom: 1px solid #e2ead7; color: #8ca778; text-align: left; margin-bottom: 16px; }
+.mileage-access-row > span { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.mileage-access-row strong { font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 650; color: #667e52; letter-spacing: -.3px; }
+.mileage-access-row small { font-size: 9px; color: #95a584; line-height: 1.7; }
+.mileage-access-row > svg:last-child { color: #b4bf9f; }
+.mileage-access-row:hover strong { color: #b27751; }
+
+.saved-mileage { display: flex; align-items: center; gap: 21px; padding: 3px 0 17px; }
+.saved-mileage-icon { display: grid; place-items: center; color: #95ab7d; width: 52px; height: 65px; flex-shrink: 0; }
+.saved-mileage > div { min-width: 0; flex: 1; }
+.saved-mileage .eyebrow { font-size: 7px; color: #98a78a; letter-spacing: 1.4px; }
+.saved-mileage strong { display: block; color: #41513a; font-family: 'Manrope', sans-serif; font-size: 44px; letter-spacing: -1.7px; font-weight: 750; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.saved-mileage strong > small { font-family: 'DM Sans', sans-serif; font-size: 15px; margin-left: 8px; font-weight: 400; letter-spacing: 0; color: #95a783; }
+.saved-mileage p { font-size: 9px; line-height: 1.8; color: #8e9e7c; }
+.mileage-manual-note { display: flex; align-items: flex-start; gap: 7px; color: #8e9d7c; font-size: 9px; line-height: 1.85; padding: 0 0 20px; border-bottom: 1px solid #e5ecdb; }
+.mileage-manual-note > svg { flex-shrink: 0; margin-top: 2px; color: #b3a386; }
+.odometer-form { padding-top: 21px; }
+.mileage-mode { display: flex; margin: 0 0 22px; }
+.mileage-mode > button { display: flex; justify-content: center; align-items: center; flex: 1; gap: 7px; min-height: 36px; font-size: 10px; }
+.mileage-mode > button.active { color: #5c7650; }
+.mileage-mode > button { white-space: normal; min-width: 0; line-height: 1.5; }
+.mileage-mode > button:disabled { cursor: not-allowed; }
+.odometer-form .mileage-input-label { font-size: 12px; color: #617950; margin-top: 0; }
+.mileage-input-wrap { display: flex; align-items: center; position: relative; margin-top: 10px; }
+.odometer-form .mileage-input-wrap > input { width: 100%; min-height: 68px; border: 1px solid #cfdcc1; background: #fff; color: #526e41; padding: 12px 52px 12px 15px; margin: 0; border-radius: 6px; font-size: 29px; letter-spacing: -.8px; font-family: 'Manrope', sans-serif; font-weight: 550; font-variant-numeric: tabular-nums; }
+.odometer-form .mileage-input-wrap > input::placeholder { font-size: 22px; font-weight: 400; color: #c0cbb1; letter-spacing: -.5px; }
+.mileage-input-wrap > span { position: absolute; right: 16px; color: #a4b38f; font-size: 13px; font-weight: 400; }
+.mileage-input-help { font-size: 9px; color: #8a9e76; line-height: 1.85; margin-top: 9px; }
+.mileage-preview { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 15px; border-left: 2px solid #b3cba0; background: #f7faf1; padding: 12px 14px; margin: 18px 0 20px; }
+.mileage-preview > span { font-size: 10px; color: #8c9f7a; flex: 1; }
+.mileage-preview > strong { font-family: 'Manrope', sans-serif; font-size: 18px; color: #68884e; font-weight: 600; letter-spacing: -.4px; font-variant-numeric: tabular-nums; }
+.mileage-preview > strong > small { font-family: 'DM Sans', sans-serif; font-size: 9px; color: #9ab084; font-weight: 400; margin-left: 2px; letter-spacing: 0; }
+.mileage-preview > small { width: 100%; color: #8fa777; font-size: 8px; line-height: 1.7; }
+.mileage-preview.correction { border-color: #d7ba8e; background: #fcf8ee; }
+.mileage-preview.correction > strong { color: #b08d60; }
+.mileage-preview.correction > small { color: #aa976f; }
+.mileage-correction .notice { margin-top: 17px; }
+.mileage-correction .confirmation-check { font-size: 10px; line-height: 1.85; }
+.mileage-correction .form-label { font-size: 11px; }
+.mileage-correction textarea { font-size: 12px; color: #7a8c63; }
+.mileage-correction .notice .text-button { display: flex; margin-top: 11px; font-size: 10px; }
+.odometer-error-placeholder { margin: 0; }
+.odometer-form .form-actions { margin-top: 24px; }
+.odometer-form .form-actions .button { font-size: 11px; min-height: 40px; }
+
+.mileage-care-summary { padding-top: 31px; margin-top: 30px; border-top: 1px solid #e4ebd8; }
+.mileage-care-summary > header, .mileage-log > header { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding-bottom: 14px; }
+.mileage-care-summary .eyebrow, .mileage-log .eyebrow { color: #a6b38f; font-size: 6.5px; letter-spacing: 1.2px; }
+.mileage-care-summary h3, .mileage-log h3 { font-family: 'Manrope', sans-serif; font-size: 18px; color: #6c8358; font-weight: 650; letter-spacing: -.4px; margin-top: 6px; }
+.mileage-care-summary > header > .text-button, .mileage-log > header > .text-button { font-size: 8px; gap: 4px; white-space: nowrap; }
+.mileage-care-row { display: flex; align-items: start; gap: 12px; border-bottom: 1px solid #e8efdc; padding: 17px 0; }
+.mileage-care-icon { width: 25px; display: flex; justify-content: center; color: #a2b98a; padding-top: 3px; flex-shrink: 0; }
+.mileage-care-row > div { flex: 1; min-width: 0; }
+.mileage-care-row h4 { color: #788e61; font-size: 11px; font-weight: 500; margin-bottom: 7px; }
+.mileage-care-row strong { display: block; color: #5d7e44; font-family: 'Manrope', sans-serif; font-weight: 650; font-size: 14px; font-variant-numeric: tabular-nums; }
+.mileage-care-row.warning strong { color: #b08a59; }
+.mileage-care-row p { color: #8b9f76; font-size: 9px; line-height: 1.9; margin-top: 7px; }
+.mileage-care-row small { display: block; color: #9aad86; font-size: 8px; line-height: 1.8; margin-top: 5px; }
+.mileage-safety-note { display: flex; align-items: flex-start; gap: 8px; color: #9ba981; font-size: 8.5px; line-height: 1.85; margin: 17px 0 0; }
+.mileage-safety-note > svg { flex-shrink: 0; margin-top: 2px; }
+.mileage-log { padding-top: 28px; margin-top: 29px; border-top: 1px solid #e2ead5; }
+.mileage-log > ol { margin: 0; padding: 0; list-style: none; }
+.mileage-log li { padding: 15px 0; border-bottom: 1px solid #e9efdd; }
+.mileage-log li > div { display: flex; align-items: center; justify-content: space-between; gap: 13px; }
+.mileage-log time { font-size: 8px; line-height: 1.8; color: #97a980; }
+.mileage-log li strong { font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 650; letter-spacing: -.3px; color: #65814c; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.mileage-log li strong > small { font-family: 'DM Sans', sans-serif; color: #a0b288; font-size: 8px; font-weight: 400; letter-spacing: 0; }
+.mileage-log li > div + div { margin-top: 7px; align-items: flex-start; }
+.mileage-log li > div > span { color: #8da477; font-size: 8px; line-height: 1.8; }
+.mileage-log li > div > small { font-size: 8px; color: #a0b28b; line-height: 1.8; text-align: right; }
+.mileage-log li p { color: #93a77e; font-size: 9px; line-height: 1.85; margin-top: 9px; overflow-wrap: anywhere; white-space: pre-wrap; }
+.mileage-log li.corrected strong { color: #b19064; }
+.mileage-log li.corrected > div > span { color: #b29c76; }
+.mileage-log-empty { color: #92a67c; font-size: 10px; line-height: 1.9; padding: 12px 0; }
+.mileage-log-more { font-size: 9px; margin-top: 14px; }
+.mileage-log-note { color: #a4b48e; font-size: 8px; line-height: 1.9; padding-top: 16px; }
+.mileage-profile-link { width: 100%; display: flex; align-items: center; gap: 11px; text-align: left; border-top: 1px solid #e4ecda; padding: 21px 0 0; margin-top: 25px; color: #9aad85; font-size: 10px; }
+.mileage-profile-link > span { flex: 1; color: #8a9e74; }
+.mileage-profile-link:hover > span { color: #b2825c; }
+
+@media (max-width: 1180px) {
+  .topbar .local-save { display: none; }
+}
+@media (max-width: 680px) {
+  .topbar-mileage { gap: 6px; padding: 7px 8px; min-height: 33px; }
+  .topbar-mileage > span { font-size: 10px; }
+  .topbar-mileage > svg:first-child { width: 15px; }
+  .topbar .breadcrumb > span, .topbar .breadcrumb > svg { display: none; }
+  .topbar .topbar-actions { gap: 6px; }
+  .topbar .topbar-divider { margin: 0 2px; }
+  .saved-mileage { gap: 13px; }
+  .saved-mileage-icon { width: 39px; }
+  .saved-mileage strong { font-size: 38px; }
+  .saved-mileage .eyebrow { font-size: 6px; letter-spacing: 1px; }
+  .saved-mileage p { font-size: 8px; }
+  .mileage-manual-note { font-size: 9px; }
+  .mileage-mode > button { font-size: 10px; gap: 6px; min-height: 36px; }
+  .odometer-form .mileage-input-label { font-size: 12px; }
+  .odometer-form .mileage-input-wrap > input { min-height: 64px; font-size: 29px; }
+  .mileage-input-help { font-size: 9px; }
+  .mileage-correction textarea { font-size: 16px; }
+  .odometer-form .form-actions { flex-wrap: wrap; }
+  .odometer-form .form-actions .button { font-size: 10px; }
+  .mileage-care-summary h3, .mileage-log h3 { font-size: 16px; }
+  .mileage-care-summary > header, .mileage-log > header { gap: 10px; }
+  .mileage-log > header { flex-wrap: wrap; }
+  .mileage-care-summary > header > .text-button { font-size: 7.5px; }
+  .mileage-care-row strong { font-size: 13px; }
+  .mileage-care-row p { font-size: 10px; }
+  .mileage-log li p { font-size: 10px; }
+}
+@media (max-width: 440px) {
+  .topbar-mileage > svg:last-child { display: none; }
+  .topbar .breadcrumb > strong { font-size: 8px; }
+  .topbar .profile-button { width: 27px; height: 27px; }
+  .mileage-care-summary > header { align-items: start; flex-direction: column; gap: 9px; }
+  .mileage-care-summary > header > .text-button { font-size: 9px; }
+  .saved-mileage strong { font-size: 34px; }
+  .mileage-mode > button { padding: 7px 5px; font-size: 9px; }
+  .mileage-preview { gap: 7px; }
+  .mileage-preview > span { font-size: 9px; }
+  .mileage-preview > strong { font-size: 17px; }
+  .mileage-log time { font-size: 7.5px; }
+  .mileage-log li strong { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .topbar-mileage { transition: none; }
+}

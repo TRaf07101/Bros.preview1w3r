@@ -1,0 +1,22 @@
+{
+  "id": "./",
+  "name": "Bros. Seu caminho em dia",
+  "short_name": "Bros.",
+  "description": "Cuidados, quilometragem e lembretes para sua Honda NXR 160 Bros. Guia independente.",
+  "lang": "pt-BR",
+  "start_url": "./#reminders",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fafbf8",
+  "theme_color": "#fafbf8",
+  "categories": ["lifestyle", "productivity"],
+  "icons": [
+    { "src": "icons/bros-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/bros-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Atualizar quilometragem", "short_name": "Quilometragem", "url": "./#reminders/mileage", "icons": [{ "src": "icons/bros-192.svg", "sizes": "192x192", "type": "image/svg+xml" }] },
+    { "name": "Verificar antes de sair", "short_name": "Antes de sair", "url": "./#checklist" },
+    { "name": "Meus lembretes", "url": "./#reminders" }
+  ]
+}

@@ -1,0 +1,80 @@
+import type { ActionType, ModelYear, Reference, Service, Usage, Variant } from './types';
+
+export const ACTIONS: Record<ActionType, { code: string; label: string; noun: string; description: string }> = {
+  inspect: { code: 'A', label: 'Verificar', noun: 'Verificação', description: 'Conferir funcionamento, nível, folga ou desgaste. O manual chama isso de inspeção. Verificar não significa trocar.' },
+  adjust: { code: 'B', label: 'Ajustar', noun: 'Ajuste', description: 'Corrigir a regulagem se a medição ou a orientação do manual mostrar que é necessário.' },
+  clean: { code: 'C', label: 'Limpar', noun: 'Limpeza', description: 'Retirar a sujeira da forma indicada no manual. Limpar não é trocar a peça.' },
+  lubricate: { code: 'D', label: 'Lubrificar', noun: 'Lubrificação', description: 'Passar o lubrificante indicado para aquela peça. Use somente o produto e os pontos de aplicação recomendados.' },
+  replace: { code: 'E', label: 'Trocar', noun: 'Troca', description: 'Colocar uma peça ou produto novo no prazo do manual ou quando o desgaste exigir. No manual: substituição.' },
+  repair: { code: 'F', label: 'Consertar se preciso', noun: 'Conserto por desgaste ou defeito', description: 'Consertar um problema encontrado na verificação. Não significa trocar a peça em toda revisão.' },
+};
+
+export const ref = (page: number, section?: string): Reference => ({ page: String(page), viewer: page, section });
+export const CERTIFICATE: Reference = { page: 'Certificado', viewer: 7, section: 'Primeiras revisões; página 7 do arquivo' };
+export const REVIEW_DATES: Reference = { page: 'Certificado', viewer: 8, section: 'Revisões do calendário; página 8 do arquivo' };
+export const MANUAL_NOTE = 'Os links de referência usam diretamente o número da página impressa no manual. Por isso, p. 44 abre p=44, p. 45 abre p=45 e p. 46 abre p=46 no visualizador.';
+export const FAN_SOURCE_SCOPE = 'Para a CG 160 Fan 2017/2018/2019/2020/2021/2022/2023/2024/2025/2026, usamos a fonte oficial Honda correspondente ao ano quando disponível. A Fan usa CBS, disco dianteiro e tambor traseiro. Para 2021, o calendário de revisões e a manutenção da corrente seguem especificamente o Manual CG 160 Fan/Titan 2021 (D2203-MAN-1255). Para os anos seguintes, o plano usa os intervalos confirmados nas respectivas referências, sem extrapolar regra de um ano para outro.';
+export const FAN_REFERENCE: Reference = { page: 'Honda CG 160 Fan 2026', viewer: 1, section: 'Página oficial Honda do modelo' };
+export const FAN_2017_REFERENCE: Reference = { page: 'Manual CG 160 Fan/Titan 2017 · D2203-MAN-1082', viewer: 37, section: 'Manual oficial Honda' };
+export const FAN_2018_REFERENCE: Reference = { page: 'Manual CG 160 Fan/Titan 2018 · D2203-MAN-1141', viewer: 1, section: 'Manual oficial Honda' };
+export const FAN_2019_REFERENCE: Reference = { page: 'Manual CG 160 Fan/Titan 2019~2020 · D2203-MAN-1185', viewer: 1, section: 'Manual oficial Honda' };
+export const FAN_2020_REFERENCE: Reference = { page: 'Manual CG 160 Fan/Titan 2019~2020 · D2203-MAN-1185', viewer: 1, section: 'Manual oficial Honda' };
+export const FAN_2021_REFERENCE: Reference = { page: 'Manual CG 160 Fan/Titan 2021 · D2203-MAN-1255', viewer: 1, section: 'Manual oficial Honda' };
+export const FAN_2022_REFERENCE: Reference = { page: 'Manual CG 160 Fan/Titan 2022 · D2203-MAN-1260', viewer: 1, section: 'Manual oficial Honda' };
+export const FAN_2023_REFERENCE: Reference = { page: 'Manual CG 160 Fan/Titan 2023~2024 · D2203-MAN-1303', viewer: 1, section: 'Manual oficial Honda' };
+export const FAN_2024_REFERENCE: Reference = { page: 'Manual CG 160 Fan/Titan 2023~2024 · D2203-MAN-1303', viewer: 1, section: 'Manual oficial Honda' };
+export const FAN_2025_REFERENCE: Reference = { page: 'Honda CG 160 2025', viewer: 1, section: 'Sala de Imprensa Honda · manutenção e freios' };
+export const sourceScopeForYear = (year: ModelYear) => year === 'FAN-2017' || year === 'FAN-2018' || year === 'FAN-2019' || year === '2020' || year === '2021' || year === '2022' || year === '2023' || year === '2024' || year === '2025' || year === '2026' ? FAN_SOURCE_SCOPE : SOURCE_SCOPE;
+export const SOURCE_SCOPE = 'As orientações técnicas do plano vêm dos manuais do proprietário correspondentes a cada ano-modelo. Quando um mesmo manual atende mais de um ano, essa relação é mantida apenas como referência interna da fonte; ela não altera nem agrupa os anos disponíveis para a motocicleta. Não usamos preços, perguntas frequentes ou dicas genéricas de sites.';
+export const SOURCE_LIMIT = 'Não há serviços inventados para os modelos antigos: cada geração/ano usa seus próprios intervalos e regras de versão quando confirmados no manual. O plano continua sem transformar uma verificação em troca automática.';
+
+const normalCondition = 'Faça a verificação antes do prazo se notar algum problema. O manual não dá um intervalo menor que sirva para todos os casos.';
+const inspectNote = 'Pela nota 1, a verificação pode levar a limpeza, ajuste, lubrificação ou troca, mas somente se houver necessidade. Verificar não significa trocar uma peça que está boa.';
+
+const FAN_SERVICE_OVERRIDES: Record<string, Partial<Service>> = {
+  'break-in': { frequency: 'Durante os primeiros 500 km', refs: [FAN_REFERENCE, FAN_2018_REFERENCE, FAN_2019_REFERENCE, FAN_2020_REFERENCE, FAN_2021_REFERENCE, FAN_2022_REFERENCE], notes: 'Na primeira utilização, siga os cuidados de amaciamento indicados no manual da CG 160 Fan. Completar 500 km não cria uma troca automática.' },
+  'electrical': { frequency: 'A cada 6.000 km', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'oil-level': { frequency: 'Antes de pilotar', refs: [FAN_REFERENCE], notes: 'Confira o nível do óleo conforme o procedimento do manual antes de usar a moto.' },
+  'drain': { frequency: 'A cada 6.000 km e quando o procedimento exigir', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'oil-screen': { frequency: 'A cada 12.000 km', kmInterval: 12000, refs: [FAN_REFERENCE] },
+  'centrifugal': { frequency: 'A cada 12.000 km', kmInterval: 12000, refs: [FAN_REFERENCE] },
+  'idle': { frequency: 'A cada 6.000 km', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'fasteners': { frequency: 'A cada 12.000 km', kmInterval: 12000, refs: [FAN_REFERENCE] },
+  'exhaust': { frequency: 'A cada 6.000 km', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'delivery': { frequency: '0 km, na entrega', refs: [FAN_REFERENCE], notes: 'Confira documentos, itens de entrega e o registro da revisão. A quilometragem 0 km representa a entrega, não uma troca geral de peças.' },
+  'first-review': { frequency: '1.000 km ou 6 meses da entrega, o que ocorrer primeiro', kmInterval: 1000, refs: [FAN_REFERENCE, FAN_2018_REFERENCE, FAN_2019_REFERENCE, FAN_2020_REFERENCE, FAN_2021_REFERENCE, FAN_2022_REFERENCE, FAN_2023_REFERENCE, FAN_2024_REFERENCE, FAN_2025_REFERENCE], pending: false, notes: 'A Honda informa a primeira revisão em 1.000 km ou 6 meses. Depois dela, confira o calendário específico do ano no manual; em 2021, a tabela segue 6.000 km/12 meses e os marcos posteriores indicados no manual.' },
+  'chain': { frequency: 'A cada 500 km; verificar condição e folga antes do uso', kmInterval: 500, refs: [FAN_REFERENCE], notes: 'Para Fan 2022+, verifique a condição e a folga antes de pilotar e cuide da corrente a cada 500 km.' },
+  'tires': { frequency: 'A cada 1.000 km ou semanalmente; também antes do uso', kmInterval: 1000, refs: [FAN_REFERENCE] },
+  'oil': { frequency: 'A cada 6.000 km ou uma vez por ano, o que ocorrer primeiro', kmInterval: 6000, timeMonths: 12, refs: [FAN_REFERENCE, FAN_2019_REFERENCE, FAN_2020_REFERENCE, FAN_2021_REFERENCE, FAN_2022_REFERENCE, FAN_2023_REFERENCE, FAN_2024_REFERENCE, FAN_2025_REFERENCE] },
+  'air': { frequency: 'A cada 18.000 km', kmInterval: 18000, refs: [FAN_REFERENCE] },
+  'spark-inspect': { frequency: 'A cada 12.000 km', kmInterval: 12000, refs: [FAN_REFERENCE] },
+  'spark': { frequency: 'A cada 12.000 km', kmInterval: 12000, refs: [FAN_REFERENCE] },
+  'valves': { frequency: 'A cada 6.000 km', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'fuel-line': { frequency: 'A cada 6.000 km', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'throttle': { frequency: 'A cada 6.000 km e antes de pilotar', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'brake-level': { frequency: 'A cada 6.000 km e antes de pilotar', kmInterval: 6000, refs: [FAN_REFERENCE], notes: 'A CG 160 Fan tem disco dianteiro com circuito hidráulico e tambor traseiro. Confira o nível e o funcionamento.' },
+  'brake-fluid': { frequency: 'A cada 2 anos', timeMonths: 24, refs: [FAN_REFERENCE], notes: 'Conte o prazo a partir da última troca real do fluido do circuito hidráulico.' },
+  'pads': { frequency: 'A cada 6.000 km e antes de pilotar', kmInterval: 6000, refs: [FAN_REFERENCE], notes: 'As pastilhas correspondem ao freio dianteiro a disco; o freio traseiro é a tambor.' },
+  'brakes': { frequency: 'A cada 6.000 km e antes de pilotar', kmInterval: 6000, refs: [FAN_REFERENCE, FAN_2019_REFERENCE, FAN_2020_REFERENCE, FAN_2021_REFERENCE, FAN_2022_REFERENCE, FAN_2023_REFERENCE, FAN_2024_REFERENCE, FAN_2025_REFERENCE], notes: 'A CG 160 Fan usa CBS, com disco dianteiro e tambor traseiro. Não é ABS.' },
+  'brake-switch': { frequency: 'A cada 6.000 km', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'headlight': { frequency: 'A cada 6.000 km e antes de pilotar', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'clutch': { frequency: 'A cada 6.000 km', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'stand': { frequency: 'A cada 6.000 km', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'suspension': { frequency: 'A cada 6.000 km', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'wheels': { frequency: 'A cada 6.000 km', kmInterval: 6000, refs: [FAN_REFERENCE] },
+  'steering': { frequency: 'A cada 12.000 km', kmInterval: 12000, refs: [FAN_REFERENCE] },
+};
+
+export const SERVICES: Service[] = [
+  {
+    id: 'delivery', component: 'Moto e documentos', service: 'Revisão de entrega', actions: ['inspect'],
+    frequency: '0 km, na entrega', description: 'Confira os documentos e o registro da revisão de entrega. Anote a data em que a moto zero-quilômetro foi entregue para contar os prazos. Conheça a lista do que verificar antes de pilotar.',
+    reason: 'Começar o acompanhamento com a data e a quilometragem corretas.', anticipation: 'Qualquer problema encontrado antes do primeiro uso deve ser corrigido.',
+    notes: '0 km é a revisão de entrega do certificado, não uma troca geral de peças.', replacement: 'Este plano não cria trocas automáticas de peças em 0 km.', refs: [CERTIFICATE, ref(48), ref(49)], severe: [], group: 'guidance',
+  },
+  {
+    id: 'break-in', component: 'Motor e freios', manualName: 'Cuidados para amaciar o motor', service: 'Cuidados nos primeiros 500 km', actions: ['inspect'],
+    frequency: 'Durante os primeiros 500 km', description: 'É o período de amaciamento do motor. Evite acelerar de repente, acelerar tudo com o motor em baixa rotação, manter a mesma velocidade por muito tempo e usar rotações muito baixas ou altas. Freie suavemente. São cuidados ao pilotar, não serviços de oficina.',
+    reason: 'Ajudar o motor a durar e os freios a funcionar bem.', anticipation: 'Siga esses cuidados desde a primeira saída. Giro excessivo pode danificar seriamente o motor.',
+    notes: 'A página 18 recomenda manter os bons hábitos por toda a vida útil. Completar 500 km não é motivo para forçar a moto.', replacement: 'Completar os primeiros 500 km não cria uma troca obrigatória neste plano.', refs: [ref(18)], severe: [], group: 'guidance',
+  },

@@ -1,0 +1,56 @@
+    reason: 'Evitar acúmulo de resíduos no sistema de ventilação do cárter.', anticipation: 'Sujeira acumulada, uso severo ou sinais de contaminação identificados antes do intervalo.', notes: 'A tabela pré-2025 traz a limpeza do respiro do cárter a cada 6.000 km.', replacement: 'Não é uma troca periódica: limpar no intervalo e substituir apenas se houver peça danificada.', refs: [ref(44), ref(45), ref(46)], severe: ['dust', 'mud', 'humidity'], group: 'scheduled',
+  },
+  {
+    id: 'exhaust', component: 'Sistema de escapamento', manualName: 'Sistema de escapamento', service: 'Verificar o escapamento', actions: ['inspect'], frequency: 'A cada 6.000 km', kmInterval: 6000,
+    description: 'Verifique o sistema de escapamento e procure ruídos, danos, fixações soltas ou alterações anormais.',
+    reason: 'Detectar problemas no escapamento e manter o conjunto preso e em boas condições.', anticipation: 'Ruído diferente, dano por impacto ou fixação solta.', notes: 'A tabela dos modelos 2019/2020, 2020/2021, 2021/2022, 2022/2023, 2023/2024 e 2024/2025 prevê verificação do sistema de escapamento a cada 6.000 km.', replacement: 'Somente se a inspeção confirmar dano ou falha; não há troca automática por quilometragem.', refs: [ref(44), ref(45), ref(46)], severe: [], group: 'scheduled',
+  },
+  {
+    id: 'steering-lube', component: 'Coluna de direção', manualName: 'Rolamentos da coluna de direção', service: 'Lubrificar a coluna de direção', actions: ['lubricate'], frequency: 'A cada 12.000 km', kmInterval: 12000,
+    description: 'Lubrifique os rolamentos da coluna de direção no intervalo indicado para os modelos 2021/2022, 2022/2023, 2023/2024 e 2024/2025. O ajuste da folga é outro serviço, previsto a cada 6.000 km.',
+    reason: 'Manter o movimento suave e a conservação dos rolamentos da direção.', anticipation: 'Movimento áspero, ruído ou folga anormal identificada antes do intervalo.', notes: 'Na tabela pré-2025, a coluna de direção é verificada/ajustada a cada 6.000 km e lubrificada a cada 12.000 km.', replacement: 'Não trocar automaticamente; substituir apenas se a inspeção indicar desgaste ou dano.', refs: [ref(44), ref(45), ref(46)], severe: [], group: 'scheduled',
+  },
+  {
+    id: 'lockset', component: 'Conjunto de travas', manualName: 'Conjunto de travas', service: 'Verificar e lubrificar as travas', actions: ['inspect', 'lubricate'], frequency: 'A cada 12.000 km', kmInterval: 12000,
+    description: 'Verifique o funcionamento das travas e lubrifique conforme necessário no intervalo da geração 2024/2025.',
+    reason: 'Manter fechaduras e travas funcionando corretamente e evitar travamento ou desgaste prematuro.', anticipation: 'Chave difícil de girar, trava presa ou funcionamento irregular.', notes: 'A tabela pré-2025 inclui o conjunto de travas a cada 12.000 km.', replacement: 'Somente peças com dano ou falha confirmada.', refs: [ref(44), ref(45), ref(46)], severe: [], group: 'scheduled',
+  },
+];
+
+export function getServiceForModel(id: string, year: ModelYear, variant: Variant = 'ESDD'): Service {
+  const base = SERVICES.find(item => item.id === id) ?? LEGACY_EXTRA_SERVICES.find(item => item.id === id);
+  if (!base) throw new Error(`Unknown maintenance service: ${id}`);
+  if (year === 'FAN-2017') {
+    const override = { ...FAN_SERVICE_OVERRIDES[id] };
+    if (id === 'chain') return { ...base, ...override, frequency: 'A cada 1.000 km; verificar condição e folga antes do uso', kmInterval: 1000, refs: [FAN_2017_REFERENCE], notes: 'O Manual CG 160 Fan/Titan 2017 prevê a manutenção da corrente a cada 1.000 km. Confira condição e folga antes de pilotar.' };
+    if (id === 'first-review') return { ...base, ...override, refs: [FAN_2017_REFERENCE], notes: 'Para 2017, a tabela do Manual CG 160 Fan/Titan D2203-MAN-1082 usa a coluna de 1.000 km para a revisão inicial; o calendário seguinte segue as marcações do manual.' };
+    if (id === 'tires') return { ...base, ...override, frequency: 'A cada 1.000 km ou semanalmente; também antes do uso', kmInterval: 1000, refs: [FAN_2017_REFERENCE], notes: 'O manual 2017 determina verificar e calibrar os pneus a cada 1.000 km ou semanalmente. Confira também antes de pilotar.' };
+    return { ...base, ...override, refs: [FAN_2017_REFERENCE] };
+  }
+  if (year === 'FAN-2018') {
+    const override = { ...FAN_SERVICE_OVERRIDES[id] };
+    if (id === 'chain') return { ...base, ...override, frequency: 'A cada 1.000 km; verificar condição e folga antes do uso', kmInterval: 1000, refs: [FAN_2018_REFERENCE], notes: 'O Manual CG 160 Fan/Titan 2018 prevê a manutenção da corrente a cada 1.000 km. Confira condição e folga antes de pilotar.' };
+    if (id === 'first-review') return { ...base, ...override, refs: [FAN_2018_REFERENCE], notes: 'Para 2018, a primeira revisão ocorre em 1.000 km ou 6 meses; o calendário seguinte segue as marcações do Manual CG 160 Fan/Titan 2018.' };
+    return { ...base, ...override, refs: [FAN_2018_REFERENCE] };
+  }
+  if (year === 'FAN-2019') {
+    const override = { ...FAN_SERVICE_OVERRIDES[id] };
+    if (id === 'chain') return { ...base, ...override, frequency: 'A cada 1.000 km; verificar condição e folga antes do uso', kmInterval: 1000, refs: [FAN_2019_REFERENCE], notes: 'O manual CG 160 Fan/Titan 2019~2020 prevê a manutenção da corrente a cada 1.000 km. Confira condição e folga antes de pilotar.' };
+    if (id === 'first-review') return { ...base, ...override, refs: [FAN_2019_REFERENCE], notes: 'Para 2019, a primeira revisão ocorre em 1.000 km ou 6 meses; o calendário seguinte segue as marcações do manual CG 160 Fan/Titan 2019~2020.' };
+    return { ...base, ...override, refs: [FAN_2019_REFERENCE] };
+  }
+  if (year === '2020') {
+    const override = { ...FAN_SERVICE_OVERRIDES[id] };
+    if (id === 'chain') return { ...base, ...override, frequency: 'A cada 1.000 km; verificar condição e folga antes do uso', kmInterval: 1000, refs: [FAN_2020_REFERENCE], notes: 'O Manual CG 160 Fan/Titan 2019~2020 prevê a manutenção da corrente a cada 1.000 km. Confira condição e folga antes de pilotar.' };
+    if (id === 'first-review') return { ...base, ...override, refs: [FAN_2020_REFERENCE], notes: 'Para 2020, a primeira revisão ocorre em 1.000 km ou 6 meses; o calendário seguinte segue as marcações do Manual CG 160 Fan/Titan 2019~2020.' };
+    return { ...base, ...override, refs: [FAN_2020_REFERENCE] };
+  }
+  if (year === '2021') {
+    const override = { ...FAN_SERVICE_OVERRIDES[id] };
+    if (id === 'chain') return { ...base, ...override, frequency: 'A cada 1.000 km; verificar condição e folga antes do uso', kmInterval: 1000, refs: [FAN_2021_REFERENCE], notes: 'O manual CG 160 Fan/Titan 2021 prevê a manutenção da corrente a cada 1.000 km. Confira condição e folga antes de pilotar.' };
+    if (id === 'first-review') return { ...base, ...override, refs: [FAN_2021_REFERENCE], notes: 'Para 2021, a primeira revisão ocorre em 1.000 km ou 6 meses; a tabela seguinte passa por 6.000 km/12 meses e continua conforme o calendário do manual.' };
+    return { ...base, ...override, refs: Array.from(new Set([...(override.refs || []), FAN_2021_REFERENCE])) };
+  }
+  if (year === '2022' || year === '2023' || year === '2024' || year === '2025' || year === '2026') {
+    return { ...base, ...FAN_SERVICE_OVERRIDES[id] };
+  }

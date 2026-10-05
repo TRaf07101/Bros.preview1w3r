@@ -1,0 +1,211 @@
+    CBS: options([
+      ['prata', 'Prata Metálico', '2026 · CG 160 Fan · CBS · nova cor oficial'],
+      ['preta', 'Preto Metálico', '2026 · CG 160 Fan · CBS'],
+      ['vermelha', 'Vermelho Perolizado', '2026 · CG 160 Fan · CBS'],
+    ]),
+    ABS: [], ESDD: [], ES: [], ESD: [], KS: [],
+  }};
+
+export function getColorOptions(year: ModelYear, variant: Variant): BikeColorOption[] {
+  return COLOR_OPTIONS[year][variant] ?? [];
+}
+
+export function isColorAvailable(year: ModelYear, variant: Variant, color: BikeColor): boolean {
+  return getColorOptions(year, variant).some(option => option.id === color);
+}
+
+export function normalizeBikeColor(year: ModelYear, variant: Variant, color?: BikeColor): BikeColor {
+  if (color && isColorAvailable(year, variant, color)) return color;
+  return getColorOptions(year, variant)[0]?.id ?? 'vermelha';
+}
+
+export function colorLabel(color: BikeColor): string {
+  return ({
+    preta: 'Preta',
+    vermelha: 'Vermelha',
+    branca: 'Branca',
+    azul: 'Azul',
+    cinza: 'Cinza',
+    verde: 'Verde',
+    laranja: 'Laranja',
+    prata: 'Prata',
+  } as Record<BikeColor, string>)[color];
+}
+
+
+function historicalImage(url: string): string {
+  return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&output=webp&q=92`;
+}
+
+export function motorcycleImagePath(year: ModelYear, variant: Variant, color: BikeColor): string {
+  const safeColor = normalizeBikeColor(year, variant, color);
+
+  // Canonical assets for byte-identical variants avoid storing duplicate images.
+  const assetAlias: Partial<Record<ModelYear, Partial<Record<Variant, Partial<Record<BikeColor, string>>>>>> = {
+    '2013': {
+      ES: { vermelha: 'REMOTE:2013-VERMELHA', preta: 'REMOTE:2013-PRETA', verde: 'REMOTE:2013-VERDE' },
+      ESD: { vermelha: 'REMOTE:2013-VERMELHA', preta: 'REMOTE:2013-PRETA', verde: 'REMOTE:2013-VERDE' },
+    },
+    '2014': { ES: { vermelha: 'https://s3.ecompletocarros.dev/images/lojas/232/veiculos/153813/veiculoInfoVeiculoImagesMobile/vehicle_image_1690835615_47ce73b2cccf86596be2b0f5cbd34d76.jpeg', branca: 'https://1.bp.blogspot.com/-HJgcr86o-_k/UsDIKixQ0fI/AAAAAAAAAKc/xvTzZrAuJPA/s1600/file_62_3.jpg', azul: 'https://4.bp.blogspot.com/-_F3JLtLjt9s/UwIkvGf_4zI/AAAAAAAAAnI/ZX3KhUjuLR0/s1600/Honda-NX-150-Bros-Flex-2014.jpg', preta: 'https://image.webmotors.com.br/_fotos/anunciousados/gigante/2025/202507/20250721/HONDA-NXR-150-BROS-MIX-ESD-wmimagem14215848624.jpg' }, ESD: { vermelha: 'https://s3.ecompletocarros.dev/images/lojas/232/veiculos/153813/veiculoInfoVeiculoImagesMobile/vehicle_image_1690835615_47ce73b2cccf86596be2b0f5cbd34d76.jpeg', branca: 'https://1.bp.blogspot.com/-HJgcr86o-_k/UsDIKixQ0fI/AAAAAAAAAKc/xvTzZrAuJPA/s1600/file_62_3.jpg', azul: 'https://4.bp.blogspot.com/-_F3JLtLjt9s/UwIkvGf_4zI/AAAAAAAAAnI/ZX3KhUjuLR0/s1600/Honda-NX-150-Bros-Flex-2014.jpg', preta: 'https://image.webmotors.com.br/_fotos/anunciousados/gigante/2025/202507/20250721/HONDA-NXR-150-BROS-MIX-ESD-wmimagem14215848624.jpg' } },
+    // Historical model photos are loaded remotely through a CORS-enabled image proxy.
+    // The runtime validates a light/neutral product background, removes it, and
+    // normalizes the motorcycle to the same 1536x1024 transparent canvas as local assets.
+    '2015': { ESD: { vermelha: 'REMOTE:2015-VERMELHA', branca: 'REMOTE:2015-BRANCA', preta: 'REMOTE:2015-PRETA' }, ESDD: { vermelha: 'REMOTE:2015-VERMELHA', branca: 'REMOTE:2015-BRANCA', preta: 'REMOTE:2015-PRETA' } },
+    '2015/2016': { ESDD: { vermelha: 'REMOTE:2015-VERMELHA', branca: 'REMOTE:2015-BRANCA', preta: 'REMOTE:2015-PRETA' } },
+    '2016/2017': { ESDD: { vermelha: 'REMOTE:2017-VERMELHA', azul: 'REMOTE:2017-AZUL' }, ES: { preta: 'REMOTE:2017-ES-PRETA', branca: 'REMOTE:2017-ES-BRANCA' } },
+    '2017/2018': { ESDD: { vermelha: 'REMOTE:2017-VERMELHA', azul: 'REMOTE:2017-AZUL' }, ES: { preta: 'REMOTE:2017-ES-PRETA', branca: 'REMOTE:2017-ES-BRANCA' } },
+    '2017': { ESDD: { vermelha: 'REMOTE:2017-VERMELHA', azul: 'REMOTE:2017-AZUL' }, ES: { preta: 'REMOTE:2017-ES-PRETA', branca: 'REMOTE:2017-ES-BRANCA' } },
+    '2018': { CBS: { laranja: '2018-2019/cbs-laranja', vermelha: '2018-2019/cbs-vermelha', azul: '2018-2019/cbs-azul' }, ES: { preta: 'https://img.olx.com.br/images/66/669622856255703.jpg', branca: 'https://img.olx.com.br/thumbs700x500/17/173565597664056.webp' } },
+    '2016': {
+      ES: { vermelha: 'https://www.motoo.com.br/fotos/2015/11/960_720/honda_NXR_160_Bros_2016_1_17112015_432_960_720.jpg', preta: 'https://www.motoo.com.br/fotos/2015/11/960_720/honda_NXR_160_Bros_2016_1_17112015_433_960_720.jpg' },
+      ESDD: {
+        vermelha: 'https://www.motoo.com.br/fotos/2015/9/960_720/honda_NXR_160_Bros_2016_1_18092015_203_960_720.jpg',
+        branca: 'https://www.motoo.com.br/fotos/2015/9/960_720/honda_NXR_160_Bros_2016_1_18092015_204_960_720.jpg',
+        preta: 'https://www.motoo.com.br/fotos/2015/9/960_720/honda_NXR_160_Bros_2016_1_18092015_205_960_720.jpg',
+      },
+    },
+    '2019/2020': {
+      CBS: {
+        branca: '2019-2020/cbs-branca',
+        vermelha: 'REMOTE:2019-VERMELHA-PRETA',
+        laranja: 'REMOTE:2019-LARANJA-CINZA',
+        azul: 'REMOTE:2019-AZUL-PRETA',
+      },
+    },
+    'NXR-2020': {
+      CBS: {
+        azul: '2020-2021/cbs-azul',
+        preta: '2020-2021/cbs-preta',
+        vermelha: '2020-2021/cbs-vermelha',
+      },
+    },
+    'NXR-2021': {
+      CBS: {
+        preta: '2021-2022/cbs-preta',
+        vermelha: '2021-2022/cbs-vermelha',
+        azul: '2021-2022/cbs-azul',
+      },
+    },
+    'NXR-2022': {
+      CBS: {
+        branca: '2022-2023/cbs-branca',
+        preta: '2022-2023/cbs-preta',
+        vermelha: '2022-2023/cbs-vermelha',
+      },
+    },
+    'NXR-2023': {
+      CBS: {
+        preta: '2023-2024/cbs-preta',
+        vermelha: '2023-2024/cbs-vermelha',
+        branca: '2023-2024/cbs-branca',
+      },
+    },
+    'NXR-2024': {
+      CBS: {
+        preta: '2024-2025/cbs-preta',
+        vermelha: '2024-2025/cbs-vermelha',
+        branca: '2024-2025/cbs-branca',
+      },
+    },
+    'NXR-2025': {
+      CBS: {
+        cinza: 'https://www.honda.com.br/motos/sites/hda/files/2024-09/Nova%20Honda%20NXR%20Bros%20160%20ABS%202025%20Cinza%20com%20detalhe%20Verde.webp',
+        preta: 'https://www.honda.com.br/motos/sites/hda/files/2024-09/Nova%20Honda%20NXR%20Bros%20160%20CBS%202025%20Preta%20com%20detalhes%20vermelho%20e%20branco.webp',
+        vermelha: '2025-2026/cbs-vermelha',
+      },
+      ABS: {
+        preta: 'https://www.honda.com.br/motos/sites/hda/files/2024-09/Nova%20Honda%20NXR%20Bros%20160%20CBS%202025%20Preta%20com%20detalhes%20vermelho%20e%20branco.webp',
+        vermelha: '2025-2026/abs-vermelha',
+      },
+    },
+    'NXR-2026': {
+      CBS: {
+        azul: '2025-2026/cbs-azul',
+        vermelha: '2025-2026/cbs-vermelha',
+      },
+      ABS: {
+        cinza: '2025-2026/abs-cinza',
+        vermelha: '2025-2026/abs-vermelha',
+      },
+    },
+    '2019': {
+      CBS: {
+        branca: '2019-2020/cbs-branca',
+        vermelha: 'REMOTE:2019-VERMELHA-PRETA',
+        laranja: 'REMOTE:2019-LARANJA-CINZA',
+        azul: 'REMOTE:2019-AZUL-PRETA',
+      },
+    },
+    '2023/2024': {
+      CBS: {
+        preta: '2023-2024/cbs-preta',
+        vermelha: '2023-2024/cbs-vermelha',
+        branca: '2023-2024/cbs-branca',
+      },
+    },
+    '2025/2026': {
+      ABS: {
+        vermelha: '2025-2026/abs-vermelha',
+        cinza: '2025-2026/abs-cinza',
+      },
+      CBS: {
+        vermelha: '2025-2026/cbs-vermelha',
+        azul: '2025-2026/cbs-azul',
+      },
+    },
+    'FAN-2017': {
+      CBS: {
+        preta: 'REMOTE:FAN-2017-PRETA',
+        vermelha: 'REMOTE:FAN-2017-VERMELHA',
+      },
+    },
+    'FAN-2018': {
+      CBS: {
+        preta: 'https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202603/20260316/hondacg_160_fanwmimagem12153068967.jpg',
+        branca: 'https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202603/20260326/honda-cg-160-fan-wmimagem18451135210.webp',
+        vermelha: 'https://img.olx.com.br/images/85/850642615286860.jpg',
+      },
+    },
+    'FAN-2019': {
+      CBS: {
+        preta: 'https://www.autocerto.com/fotos/2777/1481347/1.jpg',
+        vermelha: 'https://motonewsbrasil.com/wp-content/uploads/2018/09/honda-cg-160-fan-2019-3-1024x576.jpg',
+        cinza: 'https://img.olx.com.br/images/94/949539598732452.jpg',
+      },
+    },
+    '2021': {
+      CBS: {
+        prata: 'https://motonewsbrasil.com/wp-content/uploads/2019/08/honda-cg-160-fan-2020-1-1024x683.jpg',
+        preta: 'https://img.olx.com.br/images/27/277676129437178.jpg',
+        vermelha: 'https://img.olx.com.br/images/22/221621613005299.jpg',
+      },
+    },
+    '2022': {
+      CBS: {
+        azul: 'https://motonewsbrasil.com/wp-content/uploads/2021/06/honda-cg-160-fan-2022-13.jpg',
+        preta: 'https://motonewsbrasil.com/wp-content/uploads/2021/06/honda-cg-160-fan-2022-8.jpg',
+        vermelha: 'https://img.olx.com.br/images/54/548517114462891.jpg',
+      },
+    },
+    '2023': {
+      CBS: {
+        prata: 'https://img.olx.com.br/images/14/144686854164726.jpg',
+        preta: 'https://www.motoragora.com.br/wp-content/uploads/2022/06/cg-fan-160-2023-cor-preta-1024x576.png',
+        vermelha: 'https://www.motoragora.com.br/wp-content/uploads/2022/06/cg-160-fan-2023-cor-vermelha-1024x576.png',
+      },
+    },
+    '2024': {
+      CBS: {
+        cinza: 'https://www.honda.com.br/motos/sites/hda/files/2023-10/motocicleta-honda-cg-160-fan-2024-cinza-metalico.webp',
+        preta: 'https://production.autoforce.com/uploads/version/profile_image/11876/model_middle_webp_comprar-preto-metalico-infinite-black-metallic_bcc9796230.png.webp',
+        vermelha: 'https://production.autoforce.com/uploads/version/profile_image/11875/model_middle_webp_comprar-vermelho-perolizado-pearl-marrakesh-red_38d971ef77.png.webp',
+      },
+    },
+    '2025': {
+      CBS: {
+        azul: 'https://www.honda.com.br/motos/sites/hda/files/2024-10/motocicleta-cg-160-fan-em-azul-e-preto.webp',
+        vermelha: 'https://production.autoforce.com/uploads/version/profile_image/11875/model_middle_webp_comprar-vermelho-perolizado-pearl-marrakesh-red_38d971ef77.png.webp',
+        preta: 'https://production.autoforce.com/uploads/version/profile_image/11876/model_middle_webp_comprar-preto-metalico-infinite-black-metallic_bcc9796230.png.webp',
+      },
+    },
+    '2026': {

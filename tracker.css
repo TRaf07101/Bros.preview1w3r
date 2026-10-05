@@ -1,0 +1,40 @@
+.tracker-panel { display: flex; flex-direction: column; gap: 16px; }
+.tracker-state { display: inline-flex; align-items: center; gap: 9px; font-size: 10px; color: #8ea171; }
+.tracker-state.failed { color: #b57c52; }
+.tracker-dot { width: 7px; height: 7px; border-radius: 50%; background: #9eb782; flex-shrink: 0; }
+.tracker-dot.off { background: #c9d2bb; }
+.tracker-dot.bad { background: #d1987e; }
+.tracker-dot.busy { background: #ccb084; animation: tracker-pulse 1.2s ease-in-out infinite; }
+@keyframes tracker-pulse { 50% { opacity: .3; } }
+@media (prefers-reduced-motion: reduce) { .tracker-dot.busy { animation: none; } }
+.tracker-title { font-family: 'Manrope', sans-serif; font-size: 18px; color: #6c8358; font-weight: 650; letter-spacing: -.4px; }
+.tracker-lead { font-family: 'Manrope', sans-serif; font-size: 16px; line-height: 1.6; color: #667e52; font-weight: 600; letter-spacing: -.3px; max-width: 46ch; }
+.tracker-points { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 9px; max-width: 56ch; }
+.tracker-points li { font-size: 10px; line-height: 1.85; color: #8e9d7c; padding-left: 14px; position: relative; }
+.tracker-points li::before { content: ''; position: absolute; left: 0; top: .85em; width: 5px; height: 1px; background: #b4c5a4; }
+.tracker-facts { display: flex; flex-direction: column; border-top: 1px solid #e5ecdb; }
+.tracker-facts > div { display: flex; justify-content: space-between; gap: 18px; padding: 13px 0; border-bottom: 1px solid #e5ecdb; align-items: baseline; }
+.tracker-facts dt { font-size: 9.5px; color: #98a78a; }
+.tracker-facts dd { font-size: 11px; color: #6b8059; text-align: right; font-weight: 550; min-width: 0; overflow-wrap: anywhere; }
+.tracker-facts .tracker-km { font-family: 'Manrope', sans-serif; font-size: 20px; color: #41513a; font-weight: 750; font-variant-numeric: tabular-nums; letter-spacing: -.5px; }
+.tracker-km small { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #95a783; font-weight: 400; }
+.tracker-source, .tracker-note, .tracker-baseline, .tracker-wait { font-size: 9px; line-height: 1.85; color: #98a78a; }
+.tracker-baseline strong { color: #6b8059; font-variant-numeric: tabular-nums; }
+.tracker-actions { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+.tracker-pending-actions, .tracker-confirm > span { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+.tracker-confirm { border: 1px solid #ecd6c8; background: #fcf6f1; border-radius: 6px; padding: 14px 16px; }
+.tracker-confirm p { font-size: 10px; line-height: 1.8; color: #a8826f; }
+.tracker-form { display: flex; flex-direction: column; gap: 16px; }
+.tracker-devices { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.tracker-devices legend { font-size: 11px; color: #7b9265; padding: 0 0 10px; font-weight: 550; }
+.tracker-devices label { display: flex; gap: 12px; align-items: center; padding: 13px 14px; border: 1px solid #dfe5d7; border-radius: 6px; cursor: pointer; background: #fbfcf8; }
+.tracker-devices label.selected { border-color: #9eb782; background: #f2f6ea; }
+.tracker-devices label:focus-within { outline: 2px solid #9eb782; outline-offset: 2px; }
+.tracker-devices span { display: flex; flex-direction: column; gap: 3px; }
+.tracker-devices strong { font-size: 11px; color: #667e52; font-weight: 600; }
+.tracker-devices small { font-size: 9px; color: #98a78a; }
+.tracker-form .form-label select { display: block; width: 100%; background: #fff; border: 1px solid #dfe8d1; border-radius: 5px; padding: 10px 11px; min-height: 39px; color: #77915c; font-size: 11px; margin-top: 7px; }
+.tracker-form .form-label .optional { display: block; margin-top: 6px; font-size: 8.5px; line-height: 1.7; }
+.tracker-form .form-intro { margin-bottom: 0; }
+.trip-distance { font-family: 'Manrope', sans-serif; font-size: 44px; font-weight: 750; color: #41513a; letter-spacing: -1.5px; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.trip-distance small { font-family: 'DM Sans', sans-serif; font-size: 16px; color: #95a783; font-weight: 400; letter-spacing: 0; }

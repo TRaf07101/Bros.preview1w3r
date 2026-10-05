@@ -1,0 +1,230 @@
+import type { ModelYear, Variant, BikeColor } from './types';
+
+export interface BikeColorOption {
+  id: BikeColor;
+  label: string;
+  note: string;
+}
+
+const options = (
+  items: Array<[BikeColor, string, string]>,
+): BikeColorOption[] => items.map(([id, label, note]) => ({ id, label, note }));
+
+export const VARIANT_OPTIONS: Record<ModelYear, Variant[]> = {
+  '2013': ['ES', 'ESD'],
+  '2014': ['ES', 'ESD'],
+  '2015': ['ESD', 'ESDD'],
+  '2015/2016': ['ESDD'],
+  '2016': ['ESDD', 'ES'],
+  '2016/2017': ['ESDD', 'ES'],
+  '2017': ['ESDD', 'ES'],
+  '2017/2018': ['ESDD', 'ES'],
+  '2018': ['CBS', 'ES'],
+  '2018/2019': ['CBS'],
+  '2019': ['CBS'],
+  '2019/2020': ['CBS'],
+  'FAN-2017': ['CBS'],
+  'FAN-2018': ['CBS'],
+  'FAN-2019': ['CBS'],
+  'NXR-2020': ['CBS'],
+  'NXR-2021': ['CBS'],
+  'NXR-2022': ['CBS'],
+  'NXR-2023': ['CBS'],
+  'NXR-2024': ['CBS'],
+  'NXR-2025': ['CBS', 'ABS'],
+  'NXR-2026': ['CBS', 'ABS'],
+  '2020': ['CBS'],
+  '2020/2021': ['CBS'],
+  '2021/2022': ['CBS'],
+  '2021': ['CBS'],
+  '2022': ['CBS'],
+  '2022/2023': ['CBS'],
+  '2023/2024': ['CBS'],
+  '2023': ['CBS'],
+  '2024': ['CBS'],
+  '2024/2025': ['CBS'],
+  '2025': ['CBS'],
+  '2025/2026': ['CBS', 'ABS'],
+  '2026': ['CBS'],
+};
+
+export function getVariantOptions(year: ModelYear): Variant[] { return VARIANT_OPTIONS[year]; }
+export function defaultVariantForYear(year: ModelYear): Variant { return VARIANT_OPTIONS[year][0]; }
+export function variantLabel(variant: Variant): string {
+  return variant === 'ABS' ? 'ABS' : variant === 'CBS' ? 'CBS' : variant === 'ES' ? 'ES' : variant === 'ESD' ? 'ESD' : variant === 'KS' ? 'KS' : 'ESDD';
+}
+export function variantDescription(variant: Variant, year?: ModelYear): string {
+  if (variant === 'ABS') return 'Antitravamento';
+  if (variant === 'CBS') return 'Combinado';
+  if (variant === 'KS') return 'Tambor dianteiro';
+  if (variant === 'ES') return 'Tambor dianteiro';
+  if (variant === 'ESD') return 'Disco dianteiro';
+  return 'Dois discos';
+}
+
+export const COLOR_OPTIONS: Record<ModelYear, Partial<Record<Variant, BikeColorOption[]>>> = {
+  '2013': {
+    ESD: options([
+      ['vermelha', 'Vermelha', '2013 · NXR 150 Bros'],
+      ['preta', 'Preta', '2013 · NXR 150 Bros'],
+      ['verde', 'Verde', '2013 · NXR 150 Bros'],
+    ]),
+    ES: options([
+      ['vermelha', 'Vermelha', '2013 · NXR 150 Bros'],
+      ['preta', 'Preta', '2013 · NXR 150 Bros'],
+      ['verde', 'Verde', '2013 · NXR 150 Bros'],
+    ]),
+    ESDD: [], CBS: [], ABS: [],
+  },
+  '2014': { ESD: options([['vermelha', 'Vermelha', '2014 · NXR 150 Bros'], ['branca', 'Branca', '2014 · NXR 150 Bros'], ['azul', 'Azul (Edição Especial)', '2014 · NXR 150 Bros · Edição Especial'], ['preta', 'Preta', '2014 · NXR 150 Bros']]), ES: options([['vermelha', 'Vermelha', '2014 · NXR 150 Bros'], ['branca', 'Branca', '2014 · NXR 150 Bros'], ['azul', 'Azul (Edição Especial)', '2014 · NXR 150 Bros · Edição Especial'], ['preta', 'Preta', '2014 · NXR 150 Bros']]), ESDD: [], CBS: [], ABS: [] },
+  '2015': { ESD: options([
+      ['vermelha', 'Vermelha/Branca', '2015 · ESD · combinação oficial'],
+      ['branca', 'Branca/Preta', '2015 · ESD · combinação oficial'],
+      ['preta', 'Preta/Cinza', '2015 · ESD · combinação oficial'],
+    ]), ESDD: options([
+      ['vermelha', 'Vermelha/Branca', '2015 · combinação oficial'],
+      ['branca', 'Branca/Preta', '2015 · combinação oficial'],
+      ['preta', 'Preta/Cinza', '2015 · combinação oficial'],
+    ]), CBS: [], ABS: [] },
+  '2015/2016': { ESD: [], ESDD: options([
+      ['preta', 'Preta/Cinza', '2015 · combinação oficial'],
+      ['vermelha', 'Vermelha/Branca', '2015 · combinação oficial'],
+      ['branca', 'Branca/Preta', '2015 · combinação oficial'],
+    ]), CBS: [], ABS: [] },
+  '2016': {
+    ESD: [],
+    ES: options([
+      ['vermelha', 'Vermelha/Branca', '2016 · ES'],
+      ['preta', 'Preta', '2016 · ES'],
+    ]),
+    ESDD: options([
+      ['vermelha', 'Vermelha/Preta', '2016 · ESDD'],
+      ['branca', 'Branca/Preta', '2016 · ESDD'],
+      ['preta', 'Preta', '2016 · ESDD'],
+    ]), CBS: [], ABS: [] },
+  '2016/2017': {
+    ESDD: options([
+      ['vermelha', 'Vermelha/Branca', '2017 · ESDD · combinação oficial'],
+      ['azul', 'Azul/Branca', '2017 · ESDD · combinação oficial'],
+    ]),
+    ES: options([
+      ['preta', 'Preta', '2017 · ES'],
+      ['branca', 'Branca', '2017 · ES'],
+    ]), ESD: [], CBS: [], ABS: [],
+  },
+  '2017/2018': {
+    ESDD: options([
+      ['vermelha', 'Vermelha/Branca', '2017/2018 · ESDD · combinação oficial'],
+      ['azul', 'Azul/Branca', '2017/2018 · ESDD · combinação oficial'],
+    ]),
+    ES: options([
+      ['preta', 'Preta', '2017/2018 · ES'],
+      ['branca', 'Branca', '2017/2018 · ES'],
+    ]), ESD: [], CBS: [], ABS: [],
+  },
+  '2017': {
+    ESDD: options([
+      ['vermelha', 'Vermelha/Branca', '2017 · ESDD'],
+      ['azul', 'Azul/Branca', '2017 · ESDD'],
+    ]),
+    ES: options([
+      ['preta', 'Preta/Branca', '2017 · ES'],
+      ['branca', 'Branca', '2017 · ES'],
+    ]), ESD: [], CBS: [], ABS: [],
+  },
+  '2018': {
+    CBS: options([
+      ['laranja', 'Laranja/Branca', '2018 · ESDD/CBS'],
+      ['vermelha', 'Vermelha/Preta', '2018 · ESDD/CBS'],
+      ['azul', 'Azul/Preta', '2018 · ESDD/CBS'],
+    ]),
+    ES: options([
+      ['preta', 'Preta', '2018 · versão de entrada · dois tambores'],
+      ['branca', 'Branca', '2018 · versão de entrada · dois tambores'],
+    ]), ESD: [], ESDD: [], ABS: [],
+  },
+  '2019': {
+    CBS: options([
+      ['branca', 'Branca/Vermelha', '2019 · ESDD/CBS'],
+      ['vermelha', 'Vermelha/Preta', '2019 · ESDD/CBS'],
+      ['azul', 'Azul/Preta', '2019 · ESDD/CBS'],
+      ['laranja', 'Laranja/Cinza', '2019 · ESDD/CBS'],
+    ]), ESD: [], ESDD: [], ES: [], ABS: [],
+  },
+  '2018/2019': {
+    ESD: [], ESDD: [], CBS: options([
+      ['laranja', 'Laranja/Branca', '2018'],
+      ['vermelha', 'Vermelha/Preta', '2018'],
+      ['azul', 'Azul/Preta', '2018'],
+    ]), ABS: [],
+  },
+  '2019/2020': {
+    ESD: [], ESDD: [], CBS: options([
+      ['branca', 'Branca/Vermelha', '2019/2020 · 2019'],
+      ['vermelha', 'Vermelha/Preta', '2019/2020'],
+      ['azul', 'Azul/Preta', '2019/2020'],
+      ['laranja', 'Laranja/Cinza', '2019/2020'],
+    ]), ABS: [],
+  },
+  'FAN-2017': {
+    CBS: options([
+      ['preta', 'Preta', '2017 · CG 160 Fan ESDi · CBS · Preto sólido'],
+      ['vermelha', 'Vermelha', '2017 · CG 160 Fan ESDi · CBS · Vermelho sólido'],
+    ]), ABS: [], ESDD: [], ES: [], KS: [], ESD: [],
+  },
+  'FAN-2018': {
+    CBS: options([
+      ['preta', 'Preta', '2018 · CG 160 Fan · CBS · NH-1'],
+      ['branca', 'Branca', '2018 · CG 160 Fan · CBS · Branco Ross · NH-196'],
+      ['vermelha', 'Vermelha', '2018 · CG 160 Fan · CBS · Vermelho Guarau · R-239'],
+    ]), ABS: [], ESDD: [], ES: [], KS: [], ESD: [],
+  },
+  'FAN-2019': {
+    CBS: options([
+      ['preta', 'Preta', '2019 · CG 160 Fan · CBS'],
+      ['vermelha', 'Vermelha', '2019 · CG 160 Fan · CBS'],
+      ['cinza', 'Cinza Metálico', '2019 · CG 160 Fan · CBS'],
+    ]), ABS: [], ESDD: [], ES: [], KS: [], ESD: [],
+  },
+  'NXR-2020': { ESD: [], ESDD: [], CBS: options([
+      ['azul', 'Azul', '2020 · NXR 160 Bros ESDD · CBS'],
+      ['preta', 'Preta', '2020 · NXR 160 Bros ESDD · CBS'],
+      ['vermelha', 'Vermelha', '2020 · NXR 160 Bros ESDD · CBS'],
+    ]), ABS: [] },
+  'NXR-2021': { ESD: [], ESDD: [], CBS: options([
+      ['preta', 'Preta', '2021 · NXR 160 Bros ESDD · CBS'],
+      ['vermelha', 'Vermelha', '2021 · NXR 160 Bros ESDD · CBS'],
+      ['azul', 'Azul', '2021 · NXR 160 Bros ESDD · CBS'],
+    ]), ABS: [] },
+  'NXR-2022': { ESD: [], ESDD: [], CBS: options([
+      ['branca', 'Branca/Preta', '2022 · NXR 160 Bros ESDD · CBS'],
+      ['preta', 'Preta/Dourada', '2022 · NXR 160 Bros ESDD · CBS'],
+      ['vermelha', 'Vermelha/Branca', '2022 · NXR 160 Bros ESDD · CBS'],
+    ]), ABS: [] },
+  'NXR-2023': { ESD: [], ESDD: [], CBS: options([
+      ['preta', 'Preta/Cinza', '2023 · NXR 160 Bros ESDD · CBS'],
+      ['vermelha', 'Vermelha/Cinza', '2023 · NXR 160 Bros ESDD · CBS'],
+      ['branca', 'Branca/Preta', '2023 · NXR 160 Bros ESDD · CBS'],
+    ]), ABS: [] },
+  'NXR-2024': { ESD: [], ESDD: [], CBS: options([
+      ['preta', 'Preta', '2024 · NXR 160 Bros ESDD · CBS'],
+      ['vermelha', 'Vermelha/Preta', '2024 · NXR 160 Bros ESDD · CBS'],
+      ['branca', 'Branca/Azul', '2024 · NXR 160 Bros ESDD · CBS'],
+    ]), ABS: [] },
+  'NXR-2025': { ESD: [], ESDD: [], CBS: options([
+      ['cinza', 'Cinza', '2025 · NXR 160 Bros CBS'],
+      ['preta', 'Preta/Vermelha', '2025 · NXR 160 Bros CBS · preta com detalhes vermelho e branco (galeria oficial Honda)'],
+      ['vermelha', 'Vermelha', '2025 · NXR 160 Bros CBS'],
+    ]), ABS: options([
+      ['preta', 'Preta/Vermelha', '2025 · NXR 160 Bros ABS · preta com detalhes vermelho e branco'],
+      ['vermelha', 'Vermelha', '2025 · NXR 160 Bros ABS'],
+    ]) },
+  'NXR-2026': { ESD: [], ESDD: [], CBS: options([
+      ['azul', 'Azul', '2026 · NXR 160 Bros CBS · Universe Blue'],
+      ['vermelha', 'Vermelha', '2026 · NXR 160 Bros CBS · Fighting Red'],
+    ]), ABS: options([
+      ['cinza', 'Cinza', '2026 · NXR 160 Bros ABS · Tempestade Gray'],
+      ['vermelha', 'Vermelha', '2026 · NXR 160 Bros ABS · Fighting Red'],
+    ]) },
+  '2020/2021': {
+    ESD: [], ESDD: [], CBS: options([

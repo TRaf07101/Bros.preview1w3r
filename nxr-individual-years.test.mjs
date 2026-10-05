@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const dialog = fs.readFileSync(new URL('../src/ui/Dialogs.tsx', import.meta.url), 'utf8');
+const planner = fs.readFileSync(new URL('../src/maintenance/planner.ts', import.meta.url), 'utf8');
+const start = dialog.indexOf("form.family === 'FAN' ?");
+const selectEnd = dialog.indexOf('</select>', start);
+assert.ok(start >= 0 && selectEnd > start, 'year selector not found');
+const yearSelector = dialog.slice(start, selectEnd);
+const grouped = ['2015/2016','2016/2017','2017/2018','2018/2019','2019/2020','2020/2021','2021/2022','2022/2023','2023/2024','2024/2025','2025/2026'];
+for (const range of grouped) assert.equal(yearSelector.includes(`value="${range}"`), false, `NXR UI must not expose ${range}`);
+for (const year of ['2013','2014','2015','2016','2017','2018','2019']) assert.equal(yearSelector.includes(`value="${year}"`), true, `NXR ${year} missing`);
+for (const year of ['2020','2021','2022','2023','2024','2025','2026']) assert.equal(yearSelector.includes(`value="NXR-${year}"`), true, `NXR ${year} missing`);
+assert.match(planner, /const legacyNxrYearMap/);
+assert.match(planner, /'2025\/2026': 'NXR-2025'/);
+assert.match(planner, /profile: \{ family: 'NXR', year: 'NXR-2026'/);
+console.log('NXR individual-year UI audit: OK');
