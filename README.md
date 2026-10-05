@@ -1,4 +1,3 @@
-
 name: Gerar aplicativo Android (APK)
 
 on:
@@ -26,7 +25,11 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - uses: android-actions/setup-android@v3
+      - name: Aceitar licenças do Android SDK
+        run: |
+          echo "ANDROID_HOME=${ANDROID_HOME:-$ANDROID_SDK_ROOT}"
+          SDKM="${ANDROID_HOME:-$ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager"
+          if [ -x "$SDKM" ]; then yes | "$SDKM" --licenses > /dev/null 2>&1 || true; else echo "sdkmanager não encontrado; o Gradle tentará baixar o que faltar"; fi
       - name: Instalar dependências
         working-directory: ${{ env.PROJ }}
         run: |
